@@ -1,0 +1,412 @@
+\documentclass[12pt, oneside, letterpaper, fleqn]{article}
+
+\usepackage[title, titletoc]{appendix}
+\usepackage{bobianite}
+\usepackage{tikz}
+
+\renewcommand{\tikz}[1]{\begin{center}\begin{tikzpicture} #1
+\end{tikzpicture}\end{center}}
+
+\begin{document}
+\title{Functions as vectors}
+\author{}
+\date{\vspace{-5ex}}
+\maketitle
+
+\emph{All problems in life can be solved with linear algebra. (almost)}
+
+\vspace{6ex}\textbf{Prereqs}: vectors, matrices, calculus.
+
+Unnecessary\footnote{useless, intuition-inhibiting} rigor is avoided.
+
+\section{Vectors}
+\subsection{What are they?}
+A picture is worth a thousand words.
+\tikz{
+\draw[->, blue, very thick] (0,0)--(1.6,1) node[right]{$\vec{a}$};
+}
+
+Vectors can be added.
+\tikz{
+\draw[->, blue, very thick] (0,0)--(1.6,1) node[midway, below]{$\vec{a}$};
+\draw[->, red,  very thick] (1.6,1)--(0.8,3) node[midway, right]{$\vec{b}$};
+\draw[->, black,  very thick] (0,0)--(0.8,3) node[midway,
+left]{$\vec{c}$};
+}
+$\vec{c} = \vec{a} + \vec{b}$
+
+Vectors exists independently of any coordinate system.
+
+Now pick a coordinate system (pick a \emph{basis}).
+\begin{description}
+\item[Basis] $\set{\vec{x_1}, \vec{x_2}, \vec{x_3}, \dotsc,
+\vec{x_n}}$
+
+\item[Representation] $\vec{a} = a_1\vec{x_1} + a_2\vec{x_2} +
+\dotsb + a_n\vec{x_n} = \sum_{i}a_i\vec{x_i} = (a_1, a_2, \dotsc,
+a_n)$
+\end{description}
+Different choices of basis vectors lead to different
+\emph{representations}. Once a basis is chosen, the representation of
+any vector is unique.
+
+\subsection{Dot product for real vectors}
+Some properties:
+\begin{itemize}
+\item $\vec{a} \cdot \vec{a} > 0$ unless $\vec{a} = 0$ in which case
+$\vec{a} \cdot \vec{a} = 0$
+\item $\alpha\vec{a} \cdot \vec{b} = \vec{a} \cdot \alpha\vec{b} =
+\alpha (\vec{a} \cdot \vec{b})$
+\item $\vec{a} \cdot (\vec{b_1} + \vec{b_2}) = \vec{a} \cdot \vec{b_1} +
+\vec{a} \cdot \vec{b_2}$
+\end{itemize}
+
+\tikz{
+\draw[->, blue, very thick] (0,0)--(1.6,1) node[right]{$\vec{a}$};
+\draw[->, red, very thick] (0,0)--(1,2) node[above]{$\vec{b}$};
+\draw[very thick] (0.53,0.33) arc (32:63.4:0.62);
+\draw[black] (0.53,0.33) node[above]{$\theta$};
+}
+Geometric interpretations: length or \emph{norm} of $\vec{a}$ is
+$\abs{\vec{a}} = \sqrt{\vec{a} \cdot \vec{a}}$. $\vec{a} \cdot \vec{b} =
+\abs{\vec{a}}\abs{\vec{b}} \cos\theta$ (projection of $\vec{a}$ onto
+$\vec{b}$ times length of $\vec{b}$, or vice versa).
+
+\subsection{Orthonormal basis}
+It is always possible to find a basis where all the basis vectors have
+length $1$ and are \emph{orthogonal} (perpendicular) to one another.
+A basis $\set{\vec{x_1}, \dotsc, \vec{x_n}}$ where
+\begin{align}\label{def:orthonormal}
+\vec{x_i} \cdot \vec{x_j} = \begin{cases}
+1 & \text{if } i = j\\
+0 & \text{if } i \neq j
+\end{cases}
+\end{align}
+is called an \emph{orthonormal basis}. We will only use orthonormal
+basis from now on, since it is always possible to convert a basis into
+an orthonormal one.
+
+Dot products: let $\vec{a} = a_1\vec{x_1} +\dotsb+ a_n\vec{x_n}$ and
+$\vec{b} = b_1\vec{x_1} +\dotsb+ b_n\vec{x_n}$ be vectors and their
+representations in an orthonormal basis.
+\begin{align}
+\vec{a}\cdot\vec{b} = a_1b_1 + a_2b_2 + \dotsb + a_nb_n
+\end{align}
+using \autoref{def:orthonormal}.
+
+\subsection{Matrix multiplication}
+Suppose we have matrices $A$ and $B$ and we want to compute their
+product $C = AB$. Matrix multiplication is defined as
+\begin{align}
+c_{ij} = \sum_k a_{ik}b_{kj}
+\end{align}
+
+If we used an orthonormal basis and we wanted to compute the dot product
+$\vec{a} \cdot \vec{b}$, we could put their representations into
+matrices and compute
+\begin{align}
+\vec{a} \cdot \vec{b} = \begin{pmatrix}
+a_1 \hdots a_n
+\end{pmatrix}
+\begin{pmatrix}
+b_1\\
+\vdots\\
+b_n
+\end{pmatrix}
+= a_1b_1 + \dotsb + a_nb_n
+\end{align}
+
+\subsection{Dirac's notation}
+Dirac's notation for vectors distinguishes between row vectors and column
+vectors. Row vector:
+\begin{align}
+\bra{a} = \begin{pmatrix}a_1 \hdots a_n\end{pmatrix}
+\end{align}
+Column vector:
+\begin{align}
+\ket{b} = \begin{pmatrix}b_1\\
+\vdots\\
+b_n
+\end{pmatrix}
+\end{align}
+
+$\vec{a} \cdot \vec{b}$ is now written as $\braket{a}{b}$.
+
+In old notation, $\vec{a} = a_1\vec{x_1} +\dotsb+ a_n\vec{x_n}$, and
+$a_i = \vec{x_i} \cdot \vec{a}$. In Dirac's notation, $\ket{a} =
+a_1\ket{x_1} +\dotsb+ a_n\ket{x_n}$, and $a_i = \braket{x_i}{a}$. We see
+\begin{align*}
+\ket{a} &= a_1\ket{x_1} +\dotsb+ a_n\ket{x_n}\\
+&= \ket{x_1}\braket{x_1}{a} +\dotsb+ \ket{x_n}\braket{x_n}{a}\\
+&= \left(\ketbra{x_1}{x_1} +\dotsb+ \ketbra{x_n}{x_n}\right)\ket{a}
+\end{align*}
+from which we conclude
+\begin{align}\begin{split}\label{eq:finite_id}
+1 &= \ketbra{x_1}{x_1} + \ketbra{x_2}{x_2} +\dotsb+ \ketbra{x_n}{x_n}\\
+&= \sum_k \ketbra{x_k}{x_k}
+\end{split}\end{align}
+
+\subsection{Complex vectors}
+When we allow vectors to be multiplied by complex numbers, we still want
+to keep the idea of the length of a vector. For real vectors, this was
+$\sqrt{\braket{a}{a}}$, and we would like the same definition for
+complex vectors. But $a_1^2 + a_2^2 + \dotsb + a_n^2$ is not guaranteed
+to be real, and we would like length to be a nonnegative real number.
+However, the quantity $\abs{a_1}^2 = \bar{a_1}a_1$ is always real and
+nonnegative, where $\bar{a_1}$ refers to the complex conjugate of $a_1$. So
+we extend our definition of dot product to complex vectors by doing
+this:
+\begin{align}
+\braket{a}{b} = \bar{a_1}b_1 + \dotsb + \bar{a_n}b_n
+\end{align}
+If the $a_i$'s were real numbers, $\bar{a_i} = a_i$ and we recover our
+old formula. But now $\braket{a}{a}$ is guaranteed to be a nonnegative
+real number for all complex vectors.
+
+So now we have the following rule:
+\begin{align}
+\begin{split}
+\text{If }\ket{a} = \begin{pmatrix}a_1\\
+\vdots\\
+a_n\end{pmatrix}
+\text{, then }\bra{a} = \begin{pmatrix}\bar{a_1} \hdots
+\bar{a_n}\end{pmatrix}
+\end{split}
+\end{align}
+and vice versa. Define $\bar{\ket{a}} = \bra{a}$ and $\bar{\bra{a}} =
+\ket{a}$. We see that
+\begin{align}
+\begin{split}
+\bar{\braket{a}{b}} &= \bar{\bar{a_1}b_1 + \dotsb +
+\bar{a_n}b_n}\\
+&= a_1\bar{b_1} + \dotsb + a_n\bar{b_n}\\
+&= \braket{b}{a}
+\end{split}
+\end{align}
+so complex conjugation of a product is complex conjugation of individual
+parts of the product but everything written backwards.
+
+\section{Functions}
+\subsection{Vectors as functions}
+A function looks like $f$. A value, $f(x)$ is assigned to all $x$ in
+the domain. $f(1.2) = \text{blah}$, $f(\pi) = \text{blahblah}$, etc.
+
+Compare with vector representations: $a_1 = \text{blah}$, $a_2 =
+\text{blahblah}$. A value is assigned to every index. We can construct a
+function $a$ where $a(1) = a_1$, $a(2) = a_2$, etc. So the function $a$
+is the representation of the vector $\ket{a}$.
+
+\subsection{Functions as vectors}
+Now the reverse. From the function $f$ we can construct a vector
+$\ket{f}$, so $f$ is the representation of $\ket{f}$. The analogy:
+\begin{align*}
+\ket{a}& & \ket{f}&\\
+\braket{x_2}{a} &= a_2 & \braket{x_2}{f} &= f(2)\\
+\braket{a}{b} &= \sum_k \bar{a_k}b_k & \braket{f}{g} &= ???
+\end{align*}
+The problem is that the domain of $f$ is continuous, so we can't just
+form a sum for $\braket{f}{g}$ as we did for $\braket{a}{b}$ because it
+would be an infinite sum that in general does not converge. Instead we
+shall do this
+\begin{align}\label{def:innerp}
+\braket{f}{g} = \int \bar{f(x)}g(x)\,dx
+\end{align}
+This preserves the spirit of the dot product, the only change being the
+weight $dx$ which converts infinite quantities to finite.
+
+Some notation notes: $\braket{x_2}{f} = f(2)$, $\braket{x_\pi}{f} =
+f(\pi)$, etc., but to avoid the awkward notation of $\braket{x_x}{f} =
+f(x)$, we shall just write $\braket{x}{f} = f(x)$.
+
+Continuing with \autoref{def:innerp}
+\begin{align*}
+\braket{f}{g} &= \int \bar{f(x)}g(x)\,dx\\
+&= \int \braket{f}{x}\braket{x}{g}\,dx\\
+&= \bra{f} \left(\int \ketbra{x}{x}\,dx\right) \ket{g}
+\end{align*}
+we see that
+\begin{align}\label{eq:inf_id}
+1 = \int \ketbra{x}{x}\,dx
+\end{align}
+analogous to \autoref{eq:finite_id}.
+
+\subsection{Dirac's delta function}
+What is $\braket{x}{x_\pi}$ or $\braket{x}{x_1}$? It's going to be a
+function, just like $\braket{x}{f} = f(x)$ is a function. So let's just
+write $\delta_\pi(x) = \braket{x}{x_\pi}$, $\delta_2(x) =
+\braket{x}{x_2}$, etc.
+
+Using \autoref{eq:inf_id}
+\begin{align*}
+\bar{f(\pi)} = \braket{f}{x_\pi} &= \int
+\braket{f}{x}\braket{x}{x_\pi}\,dx\\
+&= \int \bar{f(x)} \delta_\pi(x)\,dx
+\end{align*}
+Since this works for any $f$, we must have
+\footnote{Unnecessary rigor is avoided. It is possible to avoid
+defining the $\delta$ function completely and continue on without it,
+but the analogy with vectors in finite dimensional spaces is lost.
+Intuition is more important than rigor, and the $\delta$ function is
+a very useful idea.}
+\begin{align*}
+\braket{x}{x_\pi} = \delta_\pi(x) = \begin{cases}
+\frac{1}{dx} & \text{for } \pi-\frac{dx}{2} \leq x \leq
+\pi+\frac{dx}{2}\\
+0 & \text{everywhere else}
+\end{cases}
+\end{align*}
+
+How small/What is $dx$? $dx$ shall be a quantity that is smaller than the
+precision of your data collecting tools (ruler, weight scale,
+voltmeter, experimental apparati) or if you're thinking about it
+theoretically, smaller than anything you can imagine.
+
+Notation notes: Instead of writing $\delta_\pi(x)$ or $\delta_2(x)$, we
+can just write $\delta_0(x-\pi)$ and $\delta_0(x-2)$. Then we can just
+drop the subscript $0$ and just write $\delta(x)$ to mean $\delta_0(x)$
+and $\delta(x-\pi) = \delta_\pi(x)$, etc.
+
+\section{Change of basis}
+\subsection{Rotation}
+
+
+\section{Variational calculus as multivariable calculus}
+\subsection{Application to physics}
+\subsubsection{The Lagrangian and Newton's second law}
+Let $L(x(t), \dot{x}(t), t) = \frac{1}{2}m\dot{x}^2 - U(x)$. The
+Euler-Lagrange equation yields $F = m\ddot{x} = ma$, a.k.a.\ Newton's
+second law. The quantity $(\text{kinetic energy} - \text{potential
+energy})$ is the \emph{Lagrangian}.
+
+\subsubsection{The Hamiltonian and Hamilton's equations of motion}
+Computing the derivatives with chain rule and product rule
+\begin{align*}
+\odt{L} &= \dot{x}\pdx{L} + \ddot{x}\pd{L}{\dot{x}} + \pdt{L}\\
+\odt{}\left(\dot{x}\pd{L}{\dot{x}}\right) &= \ddot{x}\pd{L}{\dot{x}} +
+\dot{x}\odt{}\pd{L}{\dot{x}}
+\end{align*}
+
+We can form
+\begin{align*}
+\odt{L} - \odt{}\left(\dot{x}\pd{L}{\dot{x}}\right) =
+\dot{x}\left(\pdx{L} - \odt{}\pd{L}{\dot{x}}\right) + \pdt{L}
+\end{align*}
+which by Euler-Lagrange becomes
+\begin{align*}
+\odt{}\left(L - \dot{x}\pd{L}{\dot{x}}\right) = \pdt{L}
+\end{align*}
+The quantity $\dot{x}\pd{L}{\dot{x}} - L$ is the
+\emph{Hamiltonian} (denoted $H$), which we see is a constant of motion
+as long as $\pdt{L} = 0$, i.e.\ $L$ does not involve time explicitly.
+
+Define $p = \pd{L}{\dot{x}}$, the \emph{canonical momentum}. The
+Hamiltonian is $H = \dot{x}p - L$. Looking at its differential
+\begin{align*}
+dH &= p\,d\dot{x} + \dot{x}\,dp - dL\\
+&= p\,d\dot{x} + \dot{x}\,dp - \left(\pdx{L}\,dx + p\,d\dot{x} +
+\pdt{L}\,dt\right)\\
+&= \dot{x}\,dp - \pdx{L}\,dx - \pdt{L}\,dt\\
+&= \dot{x}\,dp - \dot{p}\,dx - \pdt{L}\,dt
+\end{align*}
+where in the last step we have used Euler-Lagrange ($\dot{p} =
+\odt{}\pd{L}{\dot{x}} = \pdx{L}$). We can read off some of $H$'s partial
+derivatives
+\begin{align}\begin{split}\label{eq:hamilton}
+\dot{x} &= \pd{H}{p}\\
+\dot{p} &= -\pd{H}{x}
+\end{split}\end{align}
+which are \emph{Hamilton's equations of motion}.
+
+\subsubsection{The Poisson bracket}
+Suppose we have a dynamical variable $b(x,p)$, which could be kinetic
+energy, position, momentum, angular momentum (if you extend this to 3
+dimensions), whatever. Knowing the initial value of $b$ and $\odt{b}$
+for all time would solve physics.
+\begin{align*}
+\odt{b} &= \pdx{b}\dot{x} + \pd{b}{p}\dot{p}\\
+&= \pdx{b}\pd{H}{p} - \pd{b}{p}\pdx{H}
+\end{align*}
+using \autoref{eq:hamilton}.
+
+Define the \emph{Poisson bracket}
+\begin{align}
+[m, n] = \pdx{m}\pd{n}{p} - \pdx{n}\pd{m}{p}
+\end{align}
+Then we have
+\begin{align}\label{eq:classical_eom}
+\odt{b} = [b, H]
+\end{align}
+If you know the Hamiltonian of the system and you know the initial value
+of any dynamical variable $b$ (that is explicitly independent of time),
+you know $b$ for all time (also see \autoref{sec:quantum}). In other
+words, you win.
+
+\subsubsection{Quantum Poisson bracket and Schr\"odinger's
+equation}\label{sec:quantum}
+The passage of classical mechanics to quantum mechanics would require
+its own textbook. This section will therefore not make any sense except
+to people already familiar with basic quantum mechanics.
+
+Define the \emph{quantum Poisson bracket} of two dynamical variables $m$
+and $n$
+\begin{align}
+[m, n] = \frac{mn - nm}{i\hbar}
+\end{align}
+where $\hbar$ is a constant of nature. As an experimentally verified
+fact of life (physical law), if we have a dynamical variable $b$
+explicitly independent of time (in the sense that its evolution is
+only a result of internal interactions)
+\begin{align}\label{eq:quantum_eom}
+\odt{b} = [b, H]
+\end{align}
+which is identical in form to \autoref{eq:classical_eom} except we use
+the quantum Poisson bracket here.
+
+Denote $b_0$ to be the initial value of $b$ and $b_t$ to be the value
+after time $t$. It can be shown that $b_t$ is related to $b_0$ by a
+unitary change of basis $T(t)$ independent of $b$ (see
+\hyperref[app:complicated]{Appendix~\ref*{app:complicated}}).
+\begin{align}
+b_t = T\inv b_0 T = \bar{T} b_0 T
+\end{align}
+and also
+\begin{align}
+H_t = \bar{T}H_0T
+\end{align}
+(note that for an isolated system $H_t = H_0$ as we can use
+\autoref{eq:quantum_eom} and $[H, H] = 0$)
+
+Plugging back into \autoref{eq:quantum_eom}
+
+\begin{align*}
+\odt{\bar{T}} b_0 T + \bar{T} b_0 \odt{T}
+= \frac{\bar{T}b_0TH_t}{i\hbar} - \frac{H_t\bar{T}b_0T}{i\hbar}\\
+\end{align*}
+which can be written as
+\begin{align}\label{eq:qm_eom_explicit}
+\bar{\bar{T} b_0 \odt{T}}+ \bar{T} b_0 \odt{T}
+= \bar{\frac{\bar{T}b_0H_0T}{i\hbar}} +
+\frac{\bar{T}b_0H_0T}{i\hbar} 
+\end{align}
+
+From \autoref{eq:qm_eom_explicit} we can identify $i\hbar \odt{T} =
+H_0T$ (see \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}
+for a less shaky approach). If we write
+\begin{align}
+T\ket{\psi} = \ket{\psi_t}
+\end{align}
+then
+\begin{align}
+i\hbar \odt{T} \ket{\psi} = H_0T\ket{\psi}\nonumber\\
+i\hbar \odt{}\ket{\psi_t} = H_0\ket{\psi_t}
+\end{align}
+which is the \emph{Schr\"odinger equation}.
+
+\hfill \emph{Last modified: Bryance Oyang, \today}
+
+\begin{appendices}
+\section{Unhandwaiving the handwaiving}\label{app:complicated}
+It's complicated.
+\end{appendices}
+
+\end{document}
