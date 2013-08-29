@@ -1,11 +1,12 @@
 \documentclass[12pt, oneside, letterpaper, fleqn]{article}
 
 \usepackage[title, titletoc]{appendix}
-\usepackage{bobianite}
+\usepackage{ducky}
 \usepackage{tikz}
 
 \renewcommand{\tikz}[1]{\begin{center}\begin{tikzpicture} #1
 \end{tikzpicture}\end{center}}
+\colorlet{darkblue}{black!36!blue}
 
 \begin{document}
 \title{Functions as vectors}
@@ -30,7 +31,7 @@ Vectors can be added.
 \tikz{
 \draw[->, blue, very thick] (0,0)--(1.6,1) node[midway, below]{$\vec{a}$};
 \draw[->, red,  very thick] (1.6,1)--(0.8,3) node[midway, right]{$\vec{b}$};
-\draw[->, black,  very thick] (0,0)--(0.8,3) node[midway,
+\draw[->, very thick] (0,0)--(0.8,3) node[midway,
 left]{$\vec{c}$};
 }
 $\vec{c} = \vec{a} + \vec{b}$
@@ -46,6 +47,15 @@ Now pick a coordinate system (pick a \emph{basis}).
 \dotsb + a_n\vec{x_n} = \sum_{i}a_i\vec{x_i} = (a_1, a_2, \dotsc,
 a_n)$
 \end{description}
+\tikz{
+\draw[->, ultra thick] (0,0)--(1,0) node[midway, below]{$\vec{x_1}$};
+\draw[->, ultra thick] (0,0)--(0.5,2) node[midway, left]{$\vec{x_2}$};
+\draw[->, blue, very thick] (3,1)--(6,3) node[above]{$\vec{a}$};
+\draw[->, dashed, very thick] (3,1)--(5.5,1) node[midway,
+below]{$a_1\vec{x_1}$};
+\draw[->, dashed, very thick] (5.5,1)--(6,3) node[midway,
+right]{$a_2\vec{x_2}$};
+}
 Different choices of basis vectors lead to different
 \emph{representations}. Once a basis is chosen, the representation of
 any vector is unique.
@@ -65,7 +75,7 @@ $\vec{a} \cdot \vec{a} = 0$
 \draw[->, blue, very thick] (0,0)--(1.6,1) node[right]{$\vec{a}$};
 \draw[->, red, very thick] (0,0)--(1,2) node[above]{$\vec{b}$};
 \draw[very thick] (0.53,0.33) arc (32:63.4:0.62);
-\draw[black] (0.53,0.33) node[above]{$\theta$};
+\draw[] (0.53,0.33) node[above]{$\theta$};
 }
 Geometric interpretations: length or \emph{norm} of $\vec{a}$ is
 $\abs{\vec{a}} = \sqrt{\vec{a} \cdot \vec{a}}$. $\vec{a} \cdot \vec{b} =
@@ -76,15 +86,13 @@ $\vec{b}$ times length of $\vec{b}$, or vice versa).
 It is always possible to find a basis where all the basis vectors have
 length $1$ and are \emph{orthogonal} (perpendicular) to one another.
 A basis $\set{\vec{x_1}, \dotsc, \vec{x_n}}$ where
-\begin{align}\label{def:orthonormal}
+\begin{align}\label{eq:orthonormal}
 \vec{x_i} \cdot \vec{x_j} = \begin{cases}
 1 & \text{if } i = j\\
 0 & \text{if } i \neq j
 \end{cases}
 \end{align}
-is called an \emph{orthonormal basis}. We will only use orthonormal
-basis from now on, since it is always possible to convert a basis into
-an orthonormal one.
+is called an \emph{orthonormal basis}.
 
 Dot products: let $\vec{a} = a_1\vec{x_1} +\dotsb+ a_n\vec{x_n}$ and
 $\vec{b} = b_1\vec{x_1} +\dotsb+ b_n\vec{x_n}$ be vectors and their
@@ -92,9 +100,22 @@ representations in an orthonormal basis.
 \begin{align}
 \vec{a}\cdot\vec{b} = a_1b_1 + a_2b_2 + \dotsb + a_nb_n
 \end{align}
-using \autoref{def:orthonormal}.
+using \eqref{eq:orthonormal}.
+
+\emph{\textbf{We will only use orthonormal
+basis from now on, since it is always possible to convert a basis into
+an orthonormal one.}}
 
 \subsection{Matrix multiplication}
+\begin{align*}
+C = \begin{pmatrix}
+c_{11} & \hdots & c_{1j} & \hdots & c_{1n}\\
+\vdots & \ddots & \vdots & \ddots & \vdots\\
+c_{i1} & \hdots & c_{ij} & \hdots & c_{in}\\
+\vdots & \ddots & \vdots & \ddots & \vdots\\
+c_{m1} & \hdots & c_{mj} & \hdots & c_{mn}
+\end{pmatrix}
+\end{align*}
 Suppose we have matrices $A$ and $B$ and we want to compute their
 product $C = AB$. Matrix multiplication is defined as
 \begin{align}
@@ -185,6 +206,9 @@ and vice versa. Define $\bar{\ket{a}} = \bra{a}$ and $\bar{\bra{a}} =
 \end{align}
 so complex conjugation of a product is complex conjugation of individual
 parts of the product but everything written backwards.
+\footnote{Usually this is referred to as \emph{adjoint} or
+\emph{conjugate transpose} and written with $\dagger$ rather than a
+bar.}
 
 \section{Functions}
 \subsection{Vectors as functions}
@@ -194,9 +218,26 @@ the domain. $f(1.2) = \text{blah}$, $f(\pi) = \text{blahblah}$, etc.
 Compare with vector representations: $a_1 = \text{blah}$, $a_2 =
 \text{blahblah}$. A value is assigned to every index. We can construct a
 function $a$ where $a(1) = a_1$, $a(2) = a_2$, etc. So the function $a$
-is the representation of the vector $\ket{a}$.
+is the representation of the vector $\ket{a}$ in some basis.
+
+\tikz{
+\draw[->, very thick] (0,0)--(7,0) node[right]{$i$};
+\draw[->, very thick] (0,0)--(0,3) node[above]{$a(i)$};
+\draw[darkblue] (2,0)--(2,1) node[above]{$a(1)$};
+\filldraw[darkblue] (2,1) circle (0.05);
+\draw[darkblue] (4,0)--(4,2.5) node[above]{$a(2)$};
+\filldraw[darkblue] (4,2.5) circle (0.05);
+\draw[darkblue] (6,0)--(6,2) node[above]{$a(3)$};
+\filldraw[darkblue] (6,2) circle (0.05);
+}
 
 \subsection{Functions as vectors}
+\tikz{
+\draw[->, very thick] (0,0)--(7,0) node[right]{$x$};
+\draw[->, very thick] (0,0)--(0,3) node[above]{$f(x)$};
+\draw[darkblue, thick] (0,1.8) .. controls (1.5,3) and (4,0) .. (6,1.5);
+}
+
 Now the reverse. From the function $f$ we can construct a vector
 $\ket{f}$, so $f$ is the representation of $\ket{f}$. The analogy:
 \begin{align*}
@@ -208,7 +249,7 @@ The problem is that the domain of $f$ is continuous, so we can't just
 form a sum for $\braket{f}{g}$ as we did for $\braket{a}{b}$ because it
 would be an infinite sum that in general does not converge. Instead we
 shall do this
-\begin{align}\label{def:innerp}
+\begin{align}\label{eq:innerp}
 \braket{f}{g} = \int \bar{f(x)}g(x)\,dx
 \end{align}
 This preserves the spirit of the dot product, the only change being the
@@ -218,7 +259,7 @@ Some notation notes: $\braket{x_2}{f} = f(2)$, $\braket{x_\pi}{f} =
 f(\pi)$, etc., but to avoid the awkward notation of $\braket{x_x}{f} =
 f(x)$, we shall just write $\braket{x}{f} = f(x)$.
 
-Continuing with \autoref{def:innerp}
+Continuing with \eqref{eq:innerp}
 \begin{align*}
 \braket{f}{g} &= \int \bar{f(x)}g(x)\,dx\\
 &= \int \braket{f}{x}\braket{x}{g}\,dx\\
@@ -228,7 +269,7 @@ we see that
 \begin{align}\label{eq:inf_id}
 1 = \int \ketbra{x}{x}\,dx
 \end{align}
-analogous to \autoref{eq:finite_id}.
+analogous to \eqref{eq:finite_id}.
 
 \subsection{Dirac's delta function}
 What is $\braket{x}{x_\pi}$ or $\braket{x}{x_1}$? It's going to be a
@@ -236,7 +277,7 @@ function, just like $\braket{x}{f} = f(x)$ is a function. So let's just
 write $\delta_\pi(x) = \braket{x}{x_\pi}$, $\delta_2(x) =
 \braket{x}{x_2}$, etc.
 
-Using \autoref{eq:inf_id}
+Using \eqref{eq:inf_id}
 \begin{align*}
 \bar{f(\pi)} = \braket{f}{x_\pi} &= \int
 \braket{f}{x}\braket{x}{x_\pi}\,dx\\
@@ -265,6 +306,13 @@ Notation notes: Instead of writing $\delta_\pi(x)$ or $\delta_2(x)$, we
 can just write $\delta_0(x-\pi)$ and $\delta_0(x-2)$. Then we can just
 drop the subscript $0$ and just write $\delta(x)$ to mean $\delta_0(x)$
 and $\delta(x-\pi) = \delta_\pi(x)$, etc.
+
+\tikz{
+\draw[->, very thick] (-1,0)--(5,0) node[right]{$x$};
+\draw[->, very thick] (0,-1)--(0,4) node[above]{$\delta(x-\pi)$};
+\draw[black] (3.14,0) node[below, black]{$\pi$} rectangle (3.24,3.5)
+node[midway, right]{$\frac{1}{dx}$} node[above]{$dx$};
+}
 
 \section{Change of basis}
 \subsection{Rotation}
@@ -326,7 +374,7 @@ for all time would solve physics.
 \odt{b} &= \pdx{b}\dot{x} + \pd{b}{p}\dot{p}\\
 &= \pdx{b}\pd{H}{p} - \pd{b}{p}\pdx{H}
 \end{align*}
-using \autoref{eq:hamilton}.
+using \eqref{eq:hamilton}.
 
 Define the \emph{Poisson bracket}
 \begin{align}
@@ -338,7 +386,7 @@ Then we have
 \end{align}
 If you know the Hamiltonian of the system and you know the initial value
 of any dynamical variable $b$ (that is explicitly independent of time),
-you know $b$ for all time (also see \autoref{sec:quantum}). In other
+you know $b$ for all time (also see \eqref{eq:quantum_eom}). In other
 words, you win.
 
 \subsubsection{Quantum Poisson bracket and Schr\"odinger's
@@ -347,58 +395,63 @@ The passage of classical mechanics to quantum mechanics would require
 its own textbook. This section will therefore not make any sense except
 to people already familiar with basic quantum mechanics.
 
+For simplicity, let's consider an isolated system (constant $H$). A
+nonconstant $H$ would just mean we didn't take some interaction in our
+system into account properly.
+
 Define the \emph{quantum Poisson bracket} of two dynamical variables $m$
-and $n$
+and $n$\footnote{Usually the notation $[m,n]$ refers to the commutator
+$mn-nm$. Usually, but not here.}
+
 \begin{align}
 [m, n] = \frac{mn - nm}{i\hbar}
 \end{align}
 where $\hbar$ is a constant of nature. As an experimentally verified
 fact of life (physical law), if we have a dynamical variable $b$
-explicitly independent of time (in the sense that its evolution is
-only a result of internal interactions)
+explicitly independent of time (in the sense that its evolution is only
+a result of internal interactions)
 \begin{align}\label{eq:quantum_eom}
 \odt{b} = [b, H]
 \end{align}
-which is identical in form to \autoref{eq:classical_eom} except we use
+which is identical in form to \eqref{eq:classical_eom} except we use
 the quantum Poisson bracket here.
 
 Denote $b_0$ to be the initial value of $b$ and $b_t$ to be the value
-after time $t$. It can be shown that $b_t$ is related to $b_0$ by a
-unitary change of basis $T(t)$ independent of $b$ (see
+after time $t$.\footnote{$b_t$ is written instead of $b(t)$ to emphasize
+that $b$ changes only as a result of physical interactions} It can be
+shown that $b_t$ is related to $b_0$ by a unitary change of basis $T(t)$
+independent of $b$ (see
 \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}).
 \begin{align}
 b_t = T\inv b_0 T = \bar{T} b_0 T
 \end{align}
-and also
-\begin{align}
-H_t = \bar{T}H_0T
-\end{align}
-(note that for an isolated system $H_t = H_0$ as we can use
-\autoref{eq:quantum_eom} and $[H, H] = 0$)
+Note that $H_t = H_0$ ($T$ commutes with $H$) as we can use
+\eqref{eq:quantum_eom} and $[H, H] = 0$).
 
-Plugging back into \autoref{eq:quantum_eom}
+Plugging back into \eqref{eq:quantum_eom}
 
 \begin{align*}
 \odt{\bar{T}} b_0 T + \bar{T} b_0 \odt{T}
-= \frac{\bar{T}b_0TH_t}{i\hbar} - \frac{H_t\bar{T}b_0T}{i\hbar}\\
+= \frac{\bar{T}b_0TH}{i\hbar} - \frac{H\bar{T}b_0T}{i\hbar}\\
 \end{align*}
 which can be written as
 \begin{align}\label{eq:qm_eom_explicit}
 \bar{\bar{T} b_0 \odt{T}}+ \bar{T} b_0 \odt{T}
-= \bar{\frac{\bar{T}b_0H_0T}{i\hbar}} +
-\frac{\bar{T}b_0H_0T}{i\hbar} 
+= \bar{\frac{\bar{T}b_0HT}{i\hbar}} +
+\frac{\bar{T}b_0HT}{i\hbar} 
 \end{align}
 
-From \autoref{eq:qm_eom_explicit} we can identify $i\hbar \odt{T} =
-H_0T$ (see \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}
-for a less shaky approach). If we write
-\begin{align}
+From \eqref{eq:qm_eom_explicit} we can identify $i\hbar \odt{T} =
+HT$ (see \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}
+for a less shaky approach; a counterexample to the argument $a + \bar{a}
+= b + \bar{b} \implies a = b$ is $0 + \bar{0} = i + \bar{i}$). If we write
+\begin{align}\label{eq:schrodinger_psi}
 T\ket{\psi} = \ket{\psi_t}
 \end{align}
 then
-\begin{align}
-i\hbar \odt{T} \ket{\psi} = H_0T\ket{\psi}\nonumber\\
-i\hbar \odt{}\ket{\psi_t} = H_0\ket{\psi_t}
+\begin{align}\label{eq:schrodinger_equation}
+i\hbar \odt{T} \ket{\psi} = HT\ket{\psi}\nonumber\\
+i\hbar \odt{}\ket{\psi_t} = H\ket{\psi_t}
 \end{align}
 which is the \emph{Schr\"odinger equation}.
 
@@ -406,7 +459,54 @@ which is the \emph{Schr\"odinger equation}.
 
 \begin{appendices}
 \section{Unhandwaiving the handwaiving}\label{app:complicated}
-It's complicated.
+Proof by appendix.
+
+\section{But seriously}
+We're trying to get the Schr\"odinger equation (assuming a constant
+$H$), expanding on an analogy with the classical equation of motion
+\eqref{eq:classical_eom}.
+
+This is best done using diagrams (as is anything involving tensor
+products and products of tensors) but currently I don't feel like
+drawing them. So here it is using math symbols.
+
+Start with \eqref{eq:quantum_eom}.
+\begin{align*}
+\odt{b} = \frac{1}{i\hbar}(bH - Hb)
+\end{align*}
+We can reshape $b$ (a matrix) into a vector (sorta like MATLAB's
+\texttt{reshape} command). Then we'll have something like
+\begin{align*}
+\odt{b} = \frac{1}{i\hbar}(1\otimes H^\intercal - H\otimes 1)b
+\end{align*}
+where $H^\intercal$ is the transpose of $H$ and $\otimes$ is tensor product.
+
+We can recognize this as a differential equation of the form
+$\odt{\vec{v}} = M\vec{v}$ with solution $\vec{v} = \exp(Mt)\vec{v_0}$.
+\begin{align*}
+b_t &= \exp\left(\frac{t}{i\hbar}(1\otimes H^\intercal - H\otimes 1)\right)b_0\\
+&= \exp\left(\frac{t}{i\hbar}1\otimes H^\intercal\right)
+\exp\left(\frac{-t}{i\hbar}H\otimes 1\right)b_0
+\end{align*}
+as $1\otimes H^\intercal$ and $H\otimes 1$ commute. This can be written as
+\begin{align*}
+b_t &= \exp\left(\frac{-t}{i\hbar}H\right)
+\otimes\exp\left(\frac{t}{i\hbar}H^\intercal\right)b_0
+\end{align*}
+
+Reshaping this back into the original form where $b$ was a matrix
+\begin{align*}
+b_t &= \exp\left(\frac{-t}{i\hbar}H\right) b_0
+\exp\left(\frac{t}{i\hbar}H\right)\\
+&= \bar{T} b_0 T
+\end{align*}
+letting $T = \exp\left(\frac{t}{i\hbar}H\right)$. We recognize $T$ as
+the time evolution operator. We can compute its derivative
+\begin{align*}
+\odt{T} = \frac{1}{i\hbar} HT
+\end{align*}
+after which \eqref{eq:schrodinger_psi}--\eqref{eq:schrodinger_equation}
+should be clear.
 \end{appendices}
 
 \end{document}
