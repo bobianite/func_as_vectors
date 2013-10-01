@@ -379,10 +379,112 @@ So we have established the following $2$ relations
 \end{align}
 
 \section{Change of basis}
-\subsection{Rotation}
+\subsection{Rotations}
+\tikz{
+\draw[->, ultra thick] (0,0)--(2,0) node[right]{$\vec{x_1}$};
+\draw[->, ultra thick] (0,0)--(0,2) node[right]{$\vec{x_2}$};
+\draw[->, ultra thick, darkgreen] (0,0)--(1.73,1) node[right]{$\vec{y_1}$};
+\draw[->, ultra thick, darkgreen] (0,0)--(-1,1.73) node[right]{$\vec{y_2}$};
+\draw (0.8,0) arc (0:30:0.8);
+\draw (1,0) node[above]{$\theta$};
+\draw[->, blue, very thick] (3,1)--(4,2.5) node[right]{$\vec{a}$};
+}
+Suppose we know the representation of a vector $\ket{a}$ in the
+$x$-basis and we want to know the representation in a rotated $y$-basis.
+We can use $\eqref{eq:finite_id}$ to compute
+\begin{align}
+\braket{y_1}{a} &= \sum_k \braket{y_1}{x_k}\braket{x_k}{a}\\
+\braket{y_2}{a} &= \sum_k \braket{y_2}{x_k}\braket{x_k}{a}
+\end{align}
+This is just matrix multiplication.
+\begin{align*}
+\begin{pmatrix}
+\braket{y_1}{a}\\
+\braket{y_2}{a}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\braket{y_1}{x_1} & \braket{y_1}{x_2}\\
+\braket{y_2}{x_1} & \braket{y_2}{x_2}\\
+\end{pmatrix}
+\begin{pmatrix}
+\braket{x_1}{a}\\
+\braket{x_2}{a}
+\end{pmatrix}
+\end{align*}
+The matrix $\braket{y_i}{x_j}$ is the \emph{transformation matrix}. The
+columns tell you the representation of each $\ket{x_j}$ in the
+$y$-basis. For rotations, we see from the picture that the
+transformation matrix is
+\begin{align*}
+\begin{pmatrix}
+\cos\theta & \sin\theta\\
+-\sin\theta & \cos\theta
+\end{pmatrix}
+\end{align*}
 
+\subsection{Functions}
+Suppose we know $f(x) = \braket{x}{f}$ and we have a new basis
+$\ket{y}$. The representation of $\ket{f}$ in the new basis will be a
+new function $\tilde{f}(y) = \braket{y}{f}$. We can use
+\eqref{eq:inf_id} to compute
+\begin{align}
+\tilde{f}(y) = \braket{y}{f} &= \int
+\braket{y}{x}\braket{x}{f}\,dx\nonumber\\
+&= \int \braket{y}{x} f(x)\,dx
+\end{align}
+We have the transformation matrix $\braket{y}{x}$, a function of two
+variables.
+
+\subsection{The Fourier basis}
+A particularly important class of basis changings is the Fourier
+transforms. These transforms all have the flavor of analyzing periodic
+things and frequency and sine waves and stuff and their transformation
+matrices all involve roots of unity.\footnote{From the point of view of
+groups, they are characters of a cyclic group. The concept of Fourier
+transforms can be generalized to more than just cyclic groups.}
+
+\subsubsection{Discrete Fourier transform (DFT)}
+Suppose we have a vector $\ket{a}$ in an $n$-dimensional space and we
+know its representation in the $x$-basis. We define the $y$-basis with
+the transformation matrix
+\begin{align}
+\braket{y_j}{x_k} = \frac{1}{\sqrt{n}}\exp\left(\frac{-2\pi i}{n}
+kj\right)
+\end{align}
+
+The representation of $\ket{a}$ in the $y$-basis is given by
+\begin{align}
+\tilde{a}_j = \braket{y_j}{a} &= \sum_k
+\braket{y_j}{x_k}\braket{x_k}{a}\nonumber\\
+&= \frac{1}{\sqrt{n}} \sum_k \exp\left(\frac{-2\pi i}{n} kj\right) a_k
+\end{align}
+which is the \emph{discrete Fourier transform} of $(a_1,\dotsc,
+a_n)$.
+
+\subsubsection{Fourier transform}
+Suppose we have a function $f(x)$, which is the representation of
+$\ket{f}$ in the $x$-basis. Define the $y$-basis\footnote{A basis for a
+restricted class of functions} with the transformation matrix
+\begin{align}
+\braket{y}{x} = \frac{1}{\sqrt{2\pi}} e^{ixy}
+\end{align}
+
+The representation of $\ket{f}$ in the $y$-basis is given by
+\begin{align}
+\tilde{f}(y) = \braket{y}{f} &= \int
+\braket{y}{x}\braket{x}{f}\,dx\nonumber\\
+&= \frac{1}{\sqrt{2\pi}} \int e^{ixy} f(x)\,dx
+\end{align}
+which is the \emph{Fourier transform} of the function $f(x)$.
 
 \section{Variational calculus as multivariable calculus}
+\subsection{The flavor of variational calculus}
+
+
+\subsection{Euler-Lagrange equation as a gradient}
+
+
 \subsection{Application to physics}
 \subsubsection{The Lagrangian and Newton's second law}
 Let $L(x(t), \dot{x}(t), t) = \frac{1}{2}m\dot{x}^2 - U(x)$. The
