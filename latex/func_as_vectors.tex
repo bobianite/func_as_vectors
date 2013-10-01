@@ -1,8 +1,6 @@
 \documentclass[12pt, oneside, letterpaper, fleqn]{article}
 
-\usepackage[title, titletoc]{appendix}
 \usepackage{bobianite}
-\usepackage{tikz}
 
 \colorlet{darkblue}{black!36!blue}
 \colorlet{darkgreen}{black!36!green}
@@ -16,8 +14,6 @@
 \emph{All problems in life can be solved with linear algebra. (almost)}
 
 \vspace{6ex}\textbf{Prereqs}: vectors, matrices, calculus.
-
-Unnecessary\footnote{useless, intuition-inhibiting} rigor is avoided.
 
 \section{Vectors}
 \subsection{What are they?}
@@ -551,129 +547,9 @@ Then we have
 \end{align}
 If you know the Hamiltonian of the system and you know the initial value
 of any dynamical variable $b$ (that is explicitly independent of time),
-you know $b$ for all time (also see \eqref{eq:quantum_eom}). In other
-words, you win.
-
-\subsubsection{Quantum Poisson bracket and Schr\"odinger's
-equation}\label{sec:quantum}
-The passage of classical mechanics to quantum mechanics would require
-its own textbook. This section will therefore not make any sense except
-to people already familiar with basic quantum mechanics.
-
-For simplicity, let's consider an isolated system (constant $H$). A
-nonconstant $H$ would just mean we didn't take some interaction in our
-system into account properly.
-
-Define the \emph{quantum Poisson bracket} of two dynamical variables $m$
-and $n$\footnote{Usually the notation $[m,n]$ refers to the commutator
-$mn-nm$. Usually, but not here.}
-
-\begin{align}
-[m, n] = \frac{mn - nm}{i\hbar}
-\end{align}
-where $\hbar$ is a constant of nature. As an experimentally verified
-fact of life (physical law), if we have a dynamical variable $b$
-explicitly independent of time (in the sense that its evolution is only
-a result of internal interactions)
-\begin{align}\label{eq:quantum_eom}
-\odt{b} = [b, H]
-\end{align}
-which is identical in form to \eqref{eq:classical_eom} except we use
-the quantum Poisson bracket here.
-
-Denote $b_0$ to be the initial value of $b$ and $b_t$ to be the value
-after time $t$.\footnote{$b_t$ is written instead of $b(t)$ to emphasize
-that $b$ changes only as a result of physical interactions rather than
-mathematical stuffies} It can be shown that $b_t$ is related to $b_0$ by
-a unitary change of basis $T(t)$ independent of $b$ (see
-\hyperref[app:complicated]{Appendix~\ref*{app:complicated}}).
-\begin{align}
-b_t = T\inv b_0 T = \bar{T} b_0 T
-\end{align}
-
-Plugging back into \eqref{eq:quantum_eom}
-
-\begin{align*}
-\odt{\bar{T}} b_0 T + \bar{T} b_0 \odt{T}
-= \frac{\bar{T}b_0TH}{i\hbar} - \frac{H\bar{T}b_0T}{i\hbar}\\
-\end{align*}
-which can be written as
-\begin{align}\label{eq:qm_eom_explicit}
-\bar{\bar{T} b_0 \odt{T}}+ \bar{T} b_0 \odt{T}
-= \bar{\frac{\bar{T}b_0HT}{i\hbar}} +
-\frac{\bar{T}b_0HT}{i\hbar} 
-\end{align}
-
-From \eqref{eq:qm_eom_explicit} we can identify $i\hbar \odt{T} =
-HT$ (see \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}
-for a less shaky approach; a counterexample to the argument $a + \bar{a}
-= b + \bar{b} \implies a = b$ is $0 + \bar{0} = i + \bar{i}$). If we write
-\begin{align}\label{eq:schrodinger_psi}
-T\ket{\psi} = \ket{\psi_t}
-\end{align}
-then
-\begin{align}\label{eq:schrodinger_equation}
-i\hbar \odt{T} \ket{\psi} = HT\ket{\psi}\nonumber\\
-i\hbar \odt{}\ket{\psi_t} = H\ket{\psi_t}
-\end{align}
-which is the \emph{Schr\"odinger equation}.
+you know $b$ for all time. There is a similar equation for quantum
+mechanics that is equivalent to the Schro\"dinger equation.
 
 \hfill \emph{Last modified: Bryance Oyang, \today}
-
-\begin{appendices}
-\section{Unhandwaiving the handwaiving}\label{app:complicated}
-Proof by appendix.
-
-\section{But seriously}
-We're trying to get the Schr\"odinger equation (assuming a constant
-$H$), expanding on an analogy with the classical equation of motion
-\eqref{eq:classical_eom}.
-
-This is best done using diagrams (as is anything involving tensor
-products and products of tensors) but currently I don't feel like
-drawing them. So here it is using math symbols.
-
-Start with \eqref{eq:quantum_eom}.
-\begin{align*}
-\odt{b} = \frac{1}{i\hbar}(bH - Hb)
-\end{align*}
-We can reshape $b$ (a matrix) into a vector (sorta like MATLAB's
-\texttt{reshape} command). Then we'll have something like
-\begin{align*}
-\odt{b} = \frac{1}{i\hbar}(1\otimes H^\intercal - H\otimes 1)b
-\end{align*}
-where $H^\intercal$ is the transpose of $H$ and $\otimes$ is tensor product.
-
-We can recognize this as a differential equation of the form
-$\odt{\vec{v}} = M\vec{v}$ with solution $\vec{v} = \exp(Mt)\vec{v_0}$.
-\begin{align*}
-b_t &= \exp\left(\frac{t}{i\hbar}(1\otimes H^\intercal - H\otimes 1)\right)b_0\\
-&= \exp\left(\frac{t}{i\hbar}1\otimes H^\intercal\right)
-\exp\left(\frac{-t}{i\hbar}H\otimes 1\right)b_0
-\end{align*}
-as $1\otimes H^\intercal$ and $H\otimes 1$ commute. This can be written as
-\begin{align*}
-b_t &= \exp\left(\frac{-t}{i\hbar}H\right)
-\otimes\exp\left(\frac{t}{i\hbar}H^\intercal\right)b_0
-\end{align*}
-
-Reshaping this back into the original form where $b$ was a matrix
-\begin{align*}
-b_t &= \exp\left(\frac{-t}{i\hbar}H\right) b_0
-\exp\left(\frac{t}{i\hbar}H\right)\\
-&= \bar{T} b_0 T
-\end{align*}
-letting $T = \exp\left(\frac{t}{i\hbar}H\right)$. We recognize $T$ as
-the time evolution operator. We can compute its derivative
-\begin{align*}
-\odt{T} = \frac{1}{i\hbar} HT
-\end{align*}
-after which \eqref{eq:schrodinger_psi}--\eqref{eq:schrodinger_equation}
-should be clear.
-
-I don't know how to do this when $H$ is time-dependent
-(external influences are present), but \eqref{eq:quantum_eom} would have
-to be modified.
-\end{appendices}
 
 \end{document}
