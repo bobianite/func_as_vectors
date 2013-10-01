@@ -1,12 +1,13 @@
 \documentclass[12pt, oneside, letterpaper, fleqn]{article}
 
 \usepackage[title, titletoc]{appendix}
-\usepackage{ducky}
+\usepackage{bobianite}
 \usepackage{tikz}
 
 \renewcommand{\tikz}[1]{\begin{center}\begin{tikzpicture} #1
 \end{tikzpicture}\end{center}}
 \colorlet{darkblue}{black!36!blue}
+\colorlet{darkgreen}{black!36!green}
 
 \begin{document}
 \title{Functions as vectors}
@@ -44,7 +45,7 @@ Now pick a coordinate system (pick a \emph{basis}).
 \vec{x_n}}$
 
 \item[Representation] $\vec{a} = a_1\vec{x_1} + a_2\vec{x_2} +
-\dotsb + a_n\vec{x_n} = \sum_{i}a_i\vec{x_i} = (a_1, a_2, \dotsc,
+\dotsb + a_n\vec{x_n} = \sum_k a_k\vec{x_k} = (a_1, a_2, \dotsc,
 a_n)$
 \end{description}
 \tikz{
@@ -75,7 +76,7 @@ $\vec{a} \cdot \vec{a} = 0$
 \draw[->, blue, very thick] (0,0)--(1.6,1) node[right]{$\vec{a}$};
 \draw[->, red, very thick] (0,0)--(1,2) node[above]{$\vec{b}$};
 \draw[very thick] (0.53,0.33) arc (32:63.4:0.62);
-\draw[] (0.53,0.33) node[above]{$\theta$};
+\draw (0.53,0.33) node[above]{$\theta$};
 }
 Geometric interpretations: length or \emph{norm} of $\vec{a}$ is
 $\abs{\vec{a}} = \sqrt{\vec{a} \cdot \vec{a}}$. $\vec{a} \cdot \vec{b} =
@@ -92,7 +93,7 @@ A basis $\set{\vec{x_1}, \dotsc, \vec{x_n}}$ where
 0 & \text{if } i \neq j
 \end{cases}
 \end{align}
-is called an \emph{orthonormal basis}.
+is an \emph{orthonormal basis}.
 
 Dot products: let $\vec{a} = a_1\vec{x_1} +\dotsb+ a_n\vec{x_n}$ and
 $\vec{b} = b_1\vec{x_1} +\dotsb+ b_n\vec{x_n}$ be vectors and their
@@ -154,8 +155,8 @@ b_n
 $\vec{a} \cdot \vec{b}$ is now written as $\braket{a}{b}$.
 
 In old notation, $\vec{a} = a_1\vec{x_1} +\dotsb+ a_n\vec{x_n}$, and
-$a_i = \vec{x_i} \cdot \vec{a}$. In Dirac's notation, $\ket{a} =
-a_1\ket{x_1} +\dotsb+ a_n\ket{x_n}$, and $a_i = \braket{x_i}{a}$. We see
+$a_k = \vec{x_k} \cdot \vec{a}$. In Dirac's notation, $\ket{a} =
+a_1\ket{x_1} +\dotsb+ a_n\ket{x_n}$, and $a_k = \braket{x_k}{a}$. We see
 \begin{align*}
 \ket{a} &= a_1\ket{x_1} +\dotsb+ a_n\ket{x_n}\\
 &= \ket{x_1}\braket{x_1}{a} +\dotsb+ \ket{x_n}\braket{x_n}{a}\\
@@ -180,7 +181,7 @@ this:
 \begin{align}
 \braket{a}{b} = \bar{a_1}b_1 + \dotsb + \bar{a_n}b_n
 \end{align}
-If the $a_i$'s were real numbers, $\bar{a_i} = a_i$ and we recover our
+If the $a_k$'s were real numbers, $\bar{a_k} = a_k$ and we recover our
 old formula. But now $\braket{a}{a}$ is guaranteed to be a nonnegative
 real number for all complex vectors.
 
@@ -204,9 +205,9 @@ and vice versa. Define $\bar{\ket{a}} = \bra{a}$ and $\bar{\bra{a}} =
 &= \braket{b}{a}
 \end{split}
 \end{align}
-so complex conjugation of a product is complex conjugation of individual
-parts of the product but everything written backwards.
-\footnote{Usually this is referred to as \emph{adjoint} or
+so \emph{complex conjugation of a product is complex conjugation of
+individual parts of the product but everything written
+backwards}.\footnote{Usually this is referred to as \emph{adjoint} or
 \emph{conjugate transpose} and written with $\dagger$ rather than a
 bar.}
 
@@ -221,8 +222,8 @@ function $a$ where $a(1) = a_1$, $a(2) = a_2$, etc. So the function $a$
 is the representation of the vector $\ket{a}$ in some basis.
 
 \tikz{
-\draw[->, very thick] (0,0)--(7,0) node[right]{$i$};
-\draw[->, very thick] (0,0)--(0,3) node[above]{$a(i)$};
+\draw[->, very thick] (0,0)--(7,0) node[right]{$k$};
+\draw[->, very thick] (0,0)--(0,3) node[above]{$a(k)$};
 \draw[darkblue] (2,0)--(2,1) node[above]{$a(1)$};
 \filldraw[darkblue] (2,1) circle (0.05);
 \draw[darkblue] (4,0)--(4,2.5) node[above]{$a(2)$};
@@ -305,7 +306,7 @@ theoretically, smaller than anything you can imagine.
 Notation notes: Instead of writing $\delta_\pi(x)$ or $\delta_2(x)$, we
 can just write $\delta_0(x-\pi)$ and $\delta_0(x-2)$. Then we can just
 drop the subscript $0$ and just write $\delta(x)$ to mean $\delta_0(x)$
-and $\delta(x-\pi) = \delta_\pi(x)$, etc.
+and $\braket{x}{x_\pi} = \delta(x-\pi) = \delta_\pi(x)$, etc.
 
 \tikz{
 \draw[->, very thick] (-1,0)--(5,0) node[right]{$x$};
@@ -584,15 +585,13 @@ the quantum Poisson bracket here.
 
 Denote $b_0$ to be the initial value of $b$ and $b_t$ to be the value
 after time $t$.\footnote{$b_t$ is written instead of $b(t)$ to emphasize
-that $b$ changes only as a result of physical interactions} It can be
-shown that $b_t$ is related to $b_0$ by a unitary change of basis $T(t)$
-independent of $b$ (see
+that $b$ changes only as a result of physical interactions rather than
+mathematical stuffies} It can be shown that $b_t$ is related to $b_0$ by
+a unitary change of basis $T(t)$ independent of $b$ (see
 \hyperref[app:complicated]{Appendix~\ref*{app:complicated}}).
 \begin{align}
 b_t = T\inv b_0 T = \bar{T} b_0 T
 \end{align}
-Note that $H_t = H_0$ ($T$ commutes with $H$) as we can use
-\eqref{eq:quantum_eom} and $[H, H] = 0$).
 
 Plugging back into \eqref{eq:quantum_eom}
 
@@ -673,6 +672,10 @@ the time evolution operator. We can compute its derivative
 \end{align*}
 after which \eqref{eq:schrodinger_psi}--\eqref{eq:schrodinger_equation}
 should be clear.
+
+I don't know how to do this when $H$ is time-dependent
+(external influences are present), but \eqref{eq:quantum_eom} would have
+to be modified.
 \end{appendices}
 
 \end{document}
