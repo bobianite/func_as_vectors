@@ -314,6 +314,70 @@ and $\delta(x-\pi) = \delta_\pi(x)$, etc.
 node[midway, right]{$\frac{1}{dx}$} node[above]{$dx$};
 }
 
+\subsection{The differential operator}
+So we've established the notation $f(x) = \braket{x}{f}$. How are we
+going to write $\odx{f} = f'(x)$? $f'(\pi) = (f(\pi+dx) - f(\pi))/dx$,
+which is $(\braket{x_{\pi+dx}}{f} - \braket{x_\pi}{f})/dx$. Take a look
+at \eqref{eq:finite_deriv}, where we have let $D$ be the giant matrix
+
+\begin{align}\begin{split}\label{eq:finite_deriv}
+D \ket{a} &=
+\begin{pmatrix}
+-1 & 1 & 0 & 0 & 0\\
+0 & -1 & 1 & 0 & 0\\
+0 & 0 & -1 & 1 & 0\\
+0 & 0 & 0 & -1 & 1\\
+0 & 0 & 0 & 0 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+a_1\\
+a_2\\
+a_3\\
+a_4\\
+a_5
+\end{pmatrix}\\
+&=
+\begin{pmatrix}
+a_2 - a_1\\
+a_3 - a_2\\
+a_4 - a_3\\
+a_5 - a_4\\
+a_5
+\end{pmatrix}
+\end{split}\end{align}
+Apart from the last element of $D\ket{a}$, all other elements are of
+the form $\bra{x_k}D\ket{a} = \braket{x_{k+1}}{a} - \braket{x_k}{a}$.
+Comparing with $f'(\pi) = (\braket{x_{\pi+dx}}{f} -
+\braket{x_\pi}{f})/dx$, we can imagine $\odx{}$ to be a matrix
+that looks kinda like $D$ in \eqref{eq:finite_deriv}.
+\begin{align}
+f'(x) = \bra{x}\odx{}\ket{f}
+\end{align}
+
+What about derivative of the delta function, like
+$\bra{x}\odx{}\ket{x_\pi} = \delta'(x - \pi)$? It's actually more useful
+to look at dot products involving the delta function's derivative.
+\begin{align*}
+\bra{f}\odx{}\ket{x_\pi} &= \int
+\braket{f}{x}\bra{x}\odx{}\ket{x_\pi}\,dx\\
+&= \int \bar{f(x)} \delta'(x-\pi)\,dx\\
+\intertext{This can be integrated by parts.}
+&= \left[\bar{f(x)} \delta(x-\pi)\right] - \int \bar{f'(x)}
+\delta(x-\pi)\,dx\\
+\intertext{The delta function is $0$ at the limits of integration so}
+&= -\int \bar{f'(x)}\delta(x-\pi)\,dx\\
+&= -\bar{f'(\pi)}\\
+&= -\bar{\bra{x_\pi}\odx{}\ket{f}}\\
+&= -\bra{f}\bar{\odx{}}\ket{x_\pi}
+\end{align*}
+
+So we have established the following $2$ relations
+\begin{align}
+\bra{f}\odx{}\ket{x_\pi} &= -\bar{f'(\pi)}\\
+\intertext{and}
+\bar{\odx{}} &= -\odx{}
+\end{align}
+
 \section{Change of basis}
 \subsection{Rotation}
 
