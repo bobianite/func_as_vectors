@@ -2,6 +2,7 @@
 
 \usepackage{bobianite}
 
+\newcommand{\eps}{\varepsilon}
 \colorlet{darkblue}{black!36!blue}
 \colorlet{darkgreen}{black!36!green}
 
@@ -367,10 +368,12 @@ to look at dot products involving the delta function's derivative.
 \end{align*}
 
 So we have established the following $2$ relations
+\begin{align}\label{eq:dot_delta_deriv}
+\bra{f}\odx{}\ket{x_\pi} = -\bar{f'(\pi)}
+\end{align}
+and
 \begin{align}
-\bra{f}\odx{}\ket{x_\pi} &= -\bar{f'(\pi)}\\
-\intertext{and}
-\bar{\odx{}} &= -\odx{}
+\bar{\odx{}} = -\odx{}
 \end{align}
 
 \section{Change of basis}
@@ -475,10 +478,115 @@ which is the \emph{Fourier transform} of the function $f(x)$.
 
 \section{Variational calculus as multivariable calculus}
 \subsection{The flavor of variational calculus}
+Suppose someone gave us a map and a piece of string, and said that the
+land we enclose with the string on the map will be ours; what shape
+should we form the string into in order to get the largest amount of
+land?
 
+These kinds of optimization problems where we want to find a curve that
+optimizes some quantity are solved with variational calculus. To
+simplify the previous example, let's ask what's the largest area under
+a curve where the curve has length $l$:
+\tikz{
+\filldraw[fill=red!10!white, draw=darkblue, very thick] plot[smooth,
+tension=1] coordinates{(2,0) (3,1.2) (5,1) (7,2) (8,0)};
+\draw[->, very thick] (-1,0)--(10,0) node[right]{$t$};
+\draw[->, very thick] (0,-1)--(0,4) node[above]{$x$};
+\filldraw[darkblue] (2,0) circle (0.05) node[below]{$a$};
+\filldraw[darkblue] (8,0) circle (0.05) node[below]{$b$};
+\draw[red!70!black] (5,0.5) node{$S$};
+}
+Maximize
+\begin{align*}
+S &= \int_a^b x(t)\,dt
+\intertext{with constraint }
+l &= \int_a^b \sqrt{1 + \left(\odt{x}\right)^2}\,dt
+\end{align*}
+
+Another simple problem is what is the shortest distance between two
+points? Minimize
+\begin{align*}
+S = \int \sqrt{1 + \left(\odt{x}\right)^2}\,dt
+\end{align*}
+
+These sorts of problems can be generalized to finding $x(t)$ so that the
+quantity
+\begin{align*}
+S = \int L\left(x, \odt{x}, t\right)\,dt
+\end{align*}
+is stationary. $L$ would depend on the problem at hand.
 
 \subsection{Euler-Lagrange equation as a gradient}
+\subsubsection{Gradient}
+Suppose we have a function $f(x_1, x_2)$ and we wanted to find the slope in
+the direction of $\hat{\vec{u}}$, where $\hat{\vec{u}}$ is a unit
+vector. We would compute
+\begin{align*}
+\hat{\vec{u}} \cdot \grad f
+\end{align*}
+where
+\begin{align*}
+\grad f = \left(\pd{f}{x_1}, \pd{f}{x_2}\right)
+\end{align*}
+The condition that the point $(x_1, x_2)$ is a stationary (flat) point
+is $\grad f = 0$ at $(x_1, x_2)$ so that $\hat{\vec{u}} \cdot \grad f =
+0$ regardless of the direction of $\hat{\vec{u}}$.
 
+The point $(x_1, x_2)$ can be thought of as a vector from the origin, and
+$f$ as a function mapping vectors to numbers, $f(\ket{x})$.
+
+The $k$th component of $\grad f$ at position $\ket{x}$ is
+\begin{align}\label{eq:discrete_grad}
+\braket{x_k}{\grad f} = \pd{f}{x_k} = \frac{f(\ket{x} + \eps\ket{x_k}) - f(\ket{x})}{\eps}
+\end{align}
+
+\subsubsection{Euler-Lagrange}
+Returning to our problem, we want to find $x(t)$ so that
+\begin{align}
+S = \int L\left(x, \dot{x}, t\right)\,dt
+\end{align}
+is stationary. Viewing $x(t)$ as a representation of the vector
+$\ket{x}$, i.e. $x(t) = \braket{t}{x}$, $S$ is then a function of a
+vector, $S(\ket{x})$. So all we have to do is compute the gradient of
+$S$ and set that equal to $0$. In analogy to \eqref{eq:discrete_grad}
+\begin{align*}
+\braket{t_a}{\grad S} &= \frac{S(\ket{x} + \eps\ket{t_a}) -
+S(\ket{x})}{\eps}\\
+&= \frac{1}{\eps}\left(\int L\left(x(t) + \eps\delta(t-a), \dot{x} +
+\eps\odt{}\delta(t-a), t\right) - L\left(x, \dot{x},
+t\right)\,dt\right)\\
+&= \int \left(\pdx{L} \delta(t-a) + \pd{L}{\dot{x}} \odt{}\delta(t-a)
+\right)\,dt\\
+&= \braket{\pdx{L}}{t_a} +
+\left.\bra{\pd{L}{\dot{x}}}\odt{}\middle\lvert t_a
+\right\rangle
+\end{align*}
+By \eqref{eq:dot_delta_deriv} and the fact that we're only dealing with
+real numbers, this becomes
+\begin{align*}
+\braket{t_a}{\grad S} = \left.\pdx{L}\right\rvert_{t=a} -
+\left.\odt{}\left(\pd{L}{\dot{x}}\right)\right\rvert_{t=a}
+\end{align*}
+
+For $\ket{x}$ to be a stationary point, we need $\ket{\grad S} = 0$, so
+\begin{align}
+\pdx{L} - \odt{}\pd{L}{\dot{x}} = 0
+\end{align}
+which is called the \emph{Euler-Lagrange equation}.
+
+If our problem has a constraint, for example the constraint
+\begin{align*}
+Q = \int M(x, \dot{x}, t)\,dt = l
+\end{align*}
+we just use Lagrange multipliers as in multivariable calculus
+\begin{align}
+\ket{\grad S} = \lambda \ket{\grad{Q}}
+\end{align}
+Taking representatives
+\begin{align}
+\pdx{L} - \odt{}\pd{L}{\dot{x}} = \lambda \left(\pdx{M} -
+\odt{}\pd{M}{\dot{x}}\right)
+\end{align}
 
 \subsection{Application to physics}
 \subsubsection{The Lagrangian and Newton's second law}
@@ -548,7 +656,7 @@ Then we have
 If you know the Hamiltonian of the system and you know the initial value
 of any dynamical variable $b$ (that is explicitly independent of time),
 you know $b$ for all time. There is a similar equation for quantum
-mechanics that is equivalent to the Schro\"dinger equation.
+mechanics that is equivalent to the Schr\"odinger equation.
 
 \hfill \emph{Last modified: Bryance Oyang, \today}
 
